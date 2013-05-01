@@ -1,9 +1,11 @@
 package net.kaosfield.wv1;
 
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -11,12 +13,15 @@ public class MainActivity extends Activity {
 
 	private WebView webView = null;
 
+	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
 		webView = (WebView) findViewById(R.id.webview);
+		WebSettings webSettings = webView.getSettings();
+		webSettings.setJavaScriptEnabled(true);
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.loadUrl("http://google.com");
 	}

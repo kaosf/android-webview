@@ -14,7 +14,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		WebView webView = (WebView) findViewById(R.id.webview);
-		webView.setWebViewClient(new WebViewClient());
+		webView.setWebViewClient(new MyWebViewClient());
 		webView.loadUrl("http://google.com");
 	}
 

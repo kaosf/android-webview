@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebViewClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -39,7 +40,11 @@ public class MainActivity extends Activity {
 		webView = (WebView) findViewById(R.id.webview);
 		WebSettings webSettings = webView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
-		webView.setWebViewClient(new MyWebViewClient());
+		webView.setWebViewClient(new WebViewClient() {
+			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				return false;
+			}
+		});
 		webView.setWebChromeClient(new WebChromeClient() {
 			@SuppressWarnings("unused")
 			public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture){

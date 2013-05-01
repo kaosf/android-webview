@@ -1,16 +1,34 @@
 package net.kaosfield.wv1;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 public class MainActivity extends Activity {
 
 	private WebView webView = null;
+
+	private ValueCallback<Uri> mUploadMessage;
+
+	private final static int FILECHOOSER_RESULTCODE = 1;
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		if (requestCode == FILECHOOSER_RESULTCODE) {
+			if (null == mUploadMessage) return;
+				Uri result = intent == null || resultCode != RESULT_OK ? null : intent.getData();
+				mUploadMessage.onReceiveValue(result);
+				mUploadMessage = null;
+		}
+	}
 
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
@@ -22,6 +40,16 @@ public class MainActivity extends Activity {
 		WebSettings webSettings = webView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
 		webView.setWebViewClient(new MyWebViewClient());
+		webView.setWebChromeClient(new WebChromeClient() {
+			@SuppressWarnings("unused")
+			public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture){
+				mUploadMessage = uploadMsg;
+				Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+				i.addCategory(Intent.CATEGORY_OPENABLE);
+				i.setType("image/*");
+				MainActivity.this.startActivityForResult(Intent.createChooser(i, "File Chooser"), MainActivity.FILECHOOSER_RESULTCODE);
+			}
+		});
 		webView.loadUrl("http://google.com");
 	}
 

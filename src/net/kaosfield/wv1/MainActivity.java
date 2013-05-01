@@ -3,6 +3,7 @@ package net.kaosfield.wv1;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.webkit.WebView;
 
 public class MainActivity extends Activity {
 
@@ -10,6 +11,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		WebView webView = (WebView) findViewById(R.id.webview);
+		webView.loadUrl("http://google.com");
 	}
 
 	@Override

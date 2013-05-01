@@ -17,17 +17,17 @@ public class MainActivity extends Activity {
 
 	private WebView webView = null;
 
-	private ValueCallback<Uri> mUploadMessage;
+	private ValueCallback<Uri> uploadMessage;
 
 	private final static int FILECHOOSER_RESULTCODE = 1;
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		if (requestCode == FILECHOOSER_RESULTCODE) {
-			if (null == mUploadMessage) return;
-				Uri result = intent == null || resultCode != RESULT_OK ? null : intent.getData();
-				mUploadMessage.onReceiveValue(result);
-				mUploadMessage = null;
+			if (uploadMessage == null) return;
+			Uri result = intent == null || resultCode != RESULT_OK ? null : intent.getData();
+			uploadMessage.onReceiveValue(result);
+			uploadMessage = null;
 		}
 	}
 
@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
 		webView.setWebChromeClient(new WebChromeClient() {
 			@SuppressWarnings("unused")
 			public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture){
-				mUploadMessage = uploadMsg;
+				uploadMessage = uploadMsg;
 				Intent i = new Intent(Intent.ACTION_GET_CONTENT);
 				i.addCategory(Intent.CATEGORY_OPENABLE);
 				i.setType("image/*");
@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// Check if the key event was the Back button and if there's history

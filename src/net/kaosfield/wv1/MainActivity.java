@@ -46,6 +46,26 @@ public class MainActivity extends Activity {
 			}
 		});
 		webView.setWebChromeClient(new WebChromeClient() {
+			// For Android 3.0+
+			@SuppressWarnings("unused")
+			public void openFileChooser(ValueCallback<Uri> uploadMsg) {
+				uploadMessage = uploadMsg;
+				Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+				i.addCategory(Intent.CATEGORY_OPENABLE);
+				i.setType("image/*");
+				MainActivity.this.startActivityForResult(Intent.createChooser(i,"File Chooser"), FILECHOOSER_RESULTCODE);
+			}
+			// For Android 3.0+
+			@SuppressWarnings("unused")
+			public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
+				uploadMessage = uploadMsg;
+				Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+				i.addCategory(Intent.CATEGORY_OPENABLE);
+				i.setType("*/*");
+				MainActivity.this.startActivityForResult(
+				Intent.createChooser(i, "File Browser"), FILECHOOSER_RESULTCODE);
+			}
+			// For Android 4.1
 			@SuppressWarnings("unused")
 			public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture){
 				uploadMessage = uploadMsg;

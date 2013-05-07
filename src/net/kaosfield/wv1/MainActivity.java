@@ -62,8 +62,7 @@ public class MainActivity extends Activity {
 				Intent i = new Intent(Intent.ACTION_GET_CONTENT);
 				i.addCategory(Intent.CATEGORY_OPENABLE);
 				i.setType("*/*");
-				MainActivity.this.startActivityForResult(
-				Intent.createChooser(i, "File Browser"), FILECHOOSER_RESULTCODE);
+				MainActivity.this.startActivityForResult(Intent.createChooser(i, "File Browser"), FILECHOOSER_RESULTCODE);
 			}
 			// For Android 4.1
 			@SuppressWarnings("unused")

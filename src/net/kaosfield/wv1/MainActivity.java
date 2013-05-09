@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.webkit.ValueCallback;
@@ -12,6 +13,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebViewClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.content.Intent;
+import com.google.android.gcm.GCMRegistrar;
 
 public class MainActivity extends Activity {
 
@@ -36,6 +39,15 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		GCMRegistrar.checkDevice(this);
+		GCMRegistrar.checkManifest(this);
+		final String regId = GCMRegistrar.getRegistrationId(this);
+		if (regId.equals("")) {
+			GCMRegistrar.register(this, "123456789012"); // replace yours
+		} else {
+			Log.v("wv1", "Already registered");
+		}
 
 		webView = (WebView) findViewById(R.id.webview);
 		WebSettings webSettings = webView.getSettings();

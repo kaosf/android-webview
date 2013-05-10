@@ -13,6 +13,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebViewClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.JsResult;
 import android.content.Intent;
 import com.google.android.gcm.GCMRegistrar;
 
@@ -54,10 +55,34 @@ public class MainActivity extends Activity {
 		webSettings.setJavaScriptEnabled(true);
 		webView.setWebViewClient(new WebViewClient() {
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				if (url.startsWith("net.kaosfield.wv1:")) {
+					Log.d("wv1", url);
+					return true;
+				}
 				return false;
+			}
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				Log.d("wv1", "onPageFinished");
+				String argument = "d.e.f";
+				view.loadUrl("javascript:alert(window.method(\"" + argument + "\"))");
 			}
 		});
 		webView.setWebChromeClient(new WebChromeClient() {
+			@Override
+			public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+				if (message.equals("net.kaosfield.wv1")) {
+					try {
+						Log.d("wv1", "url: " + url + ", message: " + message);
+						return true;
+					} finally {
+						result.confirm(); // in order not to alert
+					}
+				}
+				else {
+					return false;
+				}
+			}
 			// For Android 3.0+
 			@SuppressWarnings("unused")
 			public void openFileChooser(ValueCallback<Uri> uploadMsg) {

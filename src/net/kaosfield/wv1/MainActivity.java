@@ -25,6 +25,22 @@ public class MainActivity extends Activity {
 
 	private final static int FILECHOOSER_RESULTCODE = 1;
 
+	private static String registrationId = "";
+
+	public static void setRegistrationId(String regId) {
+		if (!regId.equals("")) {
+			registrationId = regId;
+		}
+		else {
+			Log.d("wv1", "in setRegistrationId; regId is empty.");
+		}
+	}
+
+	private static boolean registrationIdIsRegistered() {
+		return !registrationId.equals("");
+	}
+
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		if (requestCode == FILECHOOSER_RESULTCODE) {
@@ -43,8 +59,8 @@ public class MainActivity extends Activity {
 
 		GCMRegistrar.checkDevice(this);
 		GCMRegistrar.checkManifest(this);
-		final String regId = GCMRegistrar.getRegistrationId(this);
-		if (regId.equals("")) {
+		setRegistrationId(GCMRegistrar.getRegistrationId(this));
+		if (!registrationIdIsRegistered()) {
 			GCMRegistrar.register(this, "123456789012"); // replace yours
 		} else {
 			Log.v("wv1", "Already registered");

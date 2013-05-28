@@ -12,6 +12,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	public void onRegistered(Context context, String regId) {
 		Log.d("wv1", "on registered, regId: " + regId);
+		MainActivity.setRegistrationId(regId);
 	}
 
 	@Override

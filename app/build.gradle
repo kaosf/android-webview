@@ -34,6 +34,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors {
+        mysampleapp {
+            applicationId "net.kaosfield.webview"
+        }
+    }
 }
 
 dependencies {

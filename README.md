@@ -51,7 +51,7 @@ e.g.:
   ...
   android {
       compileSdkVersion 22
-      buildToolsVersion "22.0.0"
+      buildToolsVersion "22.0.1"
   
       defaultConfig {
           applicationId "com.example.app"
